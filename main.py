@@ -61,7 +61,7 @@ day_range = np.arange(1,28+1,1)
 year_range = np.arange(2018,2019+1)
 month_range = np.arange(1,12+1)
 
-quality_idx = 'PM10'
+quality_idx = 'O3'
 location = 'PD - Arcella'
 
 year_data = {}
