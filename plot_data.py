@@ -5,24 +5,21 @@ import matplotlib.pyplot as plt
 import calendar
 import pandas as pd
 
-save_name = os.path.join('saved_data', 'padova.pickle')
-    
+save_name = os.path.join('saved_data', 'padova_full.pickle')
+
 with open(save_name, 'rb') as fh:
     full_dataset = pickle.load(fh)
-    
-    
+
 #%%
-    
-day_range = np.arange(1,28+1,1)
-year_range = np.arange(2017,2020+1)
-year_range = np.arange(2015,2020+1)
+day_range = np.arange(1,31+1,1)
+year_range = np.arange(2013,2020+1)
 month_range = np.arange(1,12+1)
 
 #year_range = [2019, 2020]
 
-quality_idx = 'O3_max'
+quality_idx = 'NO2'
 location = 'PD - Arcella'
-location = 'PD - Via G. Carli'
+#location = 'PD - Via G. Carli'
 
 TW = 10
 
@@ -53,9 +50,10 @@ for year in year_range:
                 y.append(np.nan)
                 
             x.append(F'{day_n}/{month_n}')
-        
+    
     my_data[year] = y
     my_t[year] = x
+
 
     
 fig, ax = plt.subplots(1,1)
@@ -68,8 +66,11 @@ for year in my_data:
     y = y.rolling(TW).mean()
     
     x = np.arange(0,len(y),1)
-#    plt.plot(x, y, '-o', label=year)
-    plt.plot(x, y, '-', label=year)
+    
+    if year == 2020:
+        plt.plot(x, y, 'k-.', label=year)
+    else:
+        plt.plot(x, y, '-', label=year)
 
 plt.ylabel(F'{quality_idx} (ug/m^3)');
 month_str = calendar.month_name[month_n]

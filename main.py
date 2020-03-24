@@ -1,16 +1,15 @@
 import pandas as pd
 import time
-import calendar
 import requests
+import os
 from bs4 import BeautifulSoup
 import numpy as np
-import matplotlib.pyplot as plt
 import pickle
 
 
 provincia = 'padova'
 
-year_range = range(2015,2020+1,1)
+year_range = range(2013,2020+1,1)
 month_range = range(1,12+1,1)
 day_range = range(1,31+1,1)
 
@@ -53,59 +52,13 @@ for month_n in month_range:
                 full_dataset[(year_n,month_n,day_n)] = df_view
                         
                 print(F'Year: {year_n}, Month: {month_n}, Day: {day_n}')
-                time.sleep(10)
-    
-#%%
-month_n = 2
-day_range = np.arange(1,28+1,1)
-year_range = np.arange(2018,2019+1)
-month_range = np.arange(1,12+1)
-
-quality_idx = 'O3'
-location = 'PD - Arcella'
-
-year_data = {}
-
-for year in year_range:
-    y = []
-    for month_n in month_range:
-        for day_n in day_range:
-            
-            key = (year,month_n,day_n)
-            
-            if key in full_dataset:
-                df_day = full_dataset[(year,month_n,day_n)]
-                df_city = df_day.loc[location,:]
-                idx_value = df_city[quality_idx]
-            else:
-                idx_value = None
-                
-            if idx_value:
-                y.append(float(idx_value))
-            else:
-                y.append(np.nan)
-            
-    year_data[year] = y
-    
-
-    
-plt.figure()
-for year in year_data:
-    x = np.arange(0,len(year_data[year]),1)
-    plt.plot(x, year_data[year], '-o', label=year)
-
-plt.ylabel(F'{quality_idx} (ug/m^3)');
-month_str = calendar.month_name[month_n]
-plt.title(F'{quality_idx} in {location} | {month_str}')
-plt.grid()
-plt.legend()
-plt.xticks(day_range);
+                time.sleep(2)
 
 
 #%%
 
 # save
-save_name = os.path.join('saved_data', 'padova.pickle')
+save_name = os.path.join('saved_data', 'padova_full.pickle')
 with open(save_name, 'wb') as filehandler:
     pickle.dump(full_dataset, filehandler)
 
