@@ -2,6 +2,8 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import seaborn as sns
+sns.set(style='whitegrid', context='notebook')
 
 #%%
 
@@ -25,7 +27,7 @@ year_idx = pd.to_datetime(all_idx).year.values
 year_range = np.unique(year_idx)
 
 #%%
-year_range = np.arange(2013,2020+1)
+year_range = np.arange(2013,2022+1)
 
 quality_idx = 'PM10'
 
@@ -60,14 +62,14 @@ for year in my_data:
     
     x = np.arange(0,len(y),1)
     
-    if year == 2020:
+    if year == 2021:
         plt.plot(x, y, 'k-.', label=year)
     else:
         plt.plot(x, y, '-', label=year)
 
-plt.ylabel(F'{quality_idx} ($\mu g/m^3$)', usetex=True);
+# plt.ylabel(F'{quality_idx} ($\mu g/m^3$)', usetex=True);
 plt.title(F'{quality_idx} in {location} | moving average over {TW} days')
-plt.grid()
+# plt.grid()
 plt.legend()
 
 
@@ -81,12 +83,7 @@ ax.set_xticklabels(t[0:-1:5]);
 for tick in ax.get_xticklabels():
     tick.set_rotation(90)
 
-
-
-
-
-
-
+plt.show()
 
 
 
